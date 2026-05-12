@@ -3,6 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./src/config/db');
 const mongoose = require('mongoose');
+const posterRoutes = require('./src/routes/Poster');
+const adminRoutes = require('./src/routes/Admin');
 
 dotenv.config();
 
@@ -40,7 +42,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://localhost:5173', 'http://localhost:5174', 'https://pinkink.vercel.app', 'https://pinkink-frontend.vercel.app'],
+  origin: ['http://localhost:30000', 'http://localhost:5173', 'http://localhost:5174', 'https://pinkink.vercel.app', 'https://pinkink-frontend.vercel.app'],
   credentials: true,
 }));
 app.use(express.json());
@@ -139,6 +141,8 @@ function formatUptime(seconds) {
   return parts.join(' ');
 }
 
+app.use('/api/posters', posterRoutes);
+app.use('/api/admins', adminRoutes);
 // ==================== REGULAR API ENDPOINTS ====================
 
 // Test route
@@ -165,8 +169,8 @@ app.get('/', (req, res) => {
       metrics: '/metrics'
     },
     endpoints: {
-      test: '/api/test',
-      products: '/api/products',
+      test: '/api/admin',
+      products: '/api/posters',
       categories: '/api/categories',
       auth: '/api/auth',
       orders: '/api/orders',
